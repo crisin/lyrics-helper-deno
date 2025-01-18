@@ -1,31 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
+import Login from "./Login.tsx";
+import WebPlayback from "./WebPlayback.tsx";
+
+const s4 = () => {
+  return Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
+};
 
 function App() {
-  const [count, setCount] = useState(0);
+  const appInstanceId = s4();
+
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    async function getToken() {
+      const response = await fetch("/auth/token");
+      const json = await response.json();
+      setToken(json.access_token);
+    }
+
+    getToken();
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src="/react.svg" className="logo react" alt="React logo" />
-        </a>
+      <div style={{ display: "flex" }}>
+        <h1 style={{ paddingLeft: 30 }}>Lyrics Helper</h1>
+        <p className="instance-name">{appInstanceId}</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count: number) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {token === "" ? (
+        <Login />
+      ) : (
+        <>
+          <WebPlayback token={token} appInstanceId={appInstanceId} />
+        </>
+      )}
     </>
   );
 }
