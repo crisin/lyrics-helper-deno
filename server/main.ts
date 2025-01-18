@@ -5,9 +5,14 @@ import "jsr:@std/dotenv/load";
 import { generateRandomString } from "./util/generateRandomString.ts";
 import routeStaticFilesFrom from "./util/routeStaticFilesFrom.ts";
 import { encodeBase64 } from "jsr:@std/encoding/base64";
+import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const spotify_client_id = Deno.env.get("SPOTIFY_CLIENT_ID");
 const spotify_client_secret = Deno.env.get("SPOTIFY_CLIENT_SECRET");
+const supabaseKey = Deno.env.get("SUPABASE_KEY");
+const supabaseUrl = "https://igaxsdvnkqpblxwcsbut.supabase.co";
+
+const supabase = createClient(supabaseUrl, supabaseKey || "");
 
 export const app = new Application();
 const router = new Router();
@@ -79,6 +84,18 @@ router.get("/auth/token", ($ctx) => {
   $ctx.response.body = {
     access_token: access_token,
   };
+});
+
+router.get("/songs", async ($ctx) => {
+  try {
+    const sres = await supabase.from("Songs").select();
+    console.log(sres);
+    $ctx.response.body = { songs: sres.data };
+  } catch (error) {
+    console.error(error);
+    $ctx.response.status = 500;
+    $ctx.response.body = { error: "Internal Server Error." };
+  }
 });
 
 app.use(router.routes());

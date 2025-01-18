@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Login from "./Login.tsx";
-import WebPlayback from "./WebPlayback.tsx";
+import WebPlayback from "./WebSearch.tsx";
 import { s4 } from "./util/s4.ts";
+import Lyrics from "./Lyrics.tsx";
 
 function App() {
   const appInstanceId = s4();
@@ -15,6 +16,8 @@ function App() {
     // todo: auth-flow überdenken und ggf anpassen
 
     // todo: wie state-management angehen? zustand vlt?
+
+    // todo: anstelle von token fetchen nur BE callen?
     async function getToken() {
       console.log("getToken");
       const response = await fetch("/auth/token");
@@ -43,6 +46,7 @@ function App() {
         <>
           {/* todo: logout-button, profil-seite */}
           <WebPlayback token={token} appInstanceId={appInstanceId} />
+          <Lyrics />
         </>
       )}
     </>
