@@ -121,7 +121,7 @@ function WebPlayback(props: any) {
       )}
 
       {/* todo: benötigt noch? lieber weglassen und auf lyrics konzentrieren */}
-      {is_active && (
+      {/* {is_active && (
         <div className="container">
           <div className="main-wrapper">
             <img
@@ -165,19 +165,20 @@ function WebPlayback(props: any) {
             </div>
           </div>
         </div>
-      )}
+      )} */}
       <div className="container">
         <div className="main-wrapper">
           <button className="btn-spotify" onClick={() => searchCurrentSong()}>
             Search Lyrics
           </button>
           {nothingPlayingError && (
-            <button
-              className="error-button"
-              onClick={() => setNothingPlayingError(false)}
-            >
-              nothing playing
-            </button>
+            <>
+              <span>nothing playing</span>
+              <button
+                className="error-button"
+                onClick={() => setNothingPlayingError(false)}
+              >clöse</button>
+            </>
           )}
         </div>
       </div>

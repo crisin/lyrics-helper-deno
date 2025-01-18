@@ -9,19 +9,26 @@ function App() {
 
   const [token, setToken] = useState("");
 
+  const [devMode, setDevMode] = useState(false);
+
   useEffect(() => {
     // todo: auth-flow überdenken und ggf anpassen
 
     // todo: wie state-management angehen? zustand vlt?
     async function getToken() {
+      console.log("getToken");
       const response = await fetch("/auth/token");
       const json = await response.json();
       setToken(json.access_token);
     }
 
     // todo: Supabase-Backend einbinden und Daten (History, Favoriten, gespeicherte Lyrics laden)
-
-    getToken();
+    if (window.location.port === "3000") {
+      setDevMode(true);
+      setToken("devmode");
+    } else {
+      getToken();
+    }
   }, []);
 
   return (
