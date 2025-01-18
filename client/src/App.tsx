@@ -1,13 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Login from "./Login.tsx";
 import WebPlayback from "./WebPlayback.tsx";
-
-const s4 = () => {
-  return Math.floor((1 + Math.random()) * 0x10000)
-    .toString(16)
-    .substring(1);
-};
+import { s4 } from "./util/s4.ts";
 
 function App() {
   const appInstanceId = s4();
@@ -15,11 +10,16 @@ function App() {
   const [token, setToken] = useState("");
 
   useEffect(() => {
+    // todo: auth-flow überdenken und ggf anpassen
+
+    // todo: wie state-management angehen? zustand vlt?
     async function getToken() {
       const response = await fetch("/auth/token");
       const json = await response.json();
       setToken(json.access_token);
     }
+
+    // todo: Supabase-Backend einbinden und Daten (History, Favoriten, gespeicherte Lyrics laden)
 
     getToken();
   }, []);
@@ -34,6 +34,7 @@ function App() {
         <Login />
       ) : (
         <>
+          {/* todo: logout-button, profil-seite */}
           <WebPlayback token={token} appInstanceId={appInstanceId} />
         </>
       )}

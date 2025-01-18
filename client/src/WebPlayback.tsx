@@ -8,6 +8,8 @@ const track = {
   artists: [{ name: "" }],
 };
 
+// todo: typing
+
 function WebPlayback(props: any) {
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
@@ -16,54 +18,48 @@ function WebPlayback(props: any) {
   const [searchHistory, setSearchHistory] = useState([]);
   const [nothingPlayingError, setNothingPlayingError] = useState(false);
 
-//   useEffect(() => {
-//     const script = document.createElement("script");
-//     script.src = "https://sdk.scdn.co/spotify-player.js";
-//     script.async = true;
+  //   useEffect(() => {
+  //     const script = document.createElement("script");
+  //     script.src = "https://sdk.scdn.co/spotify-player.js";
+  //     script.async = true;
 
-//     document.body.appendChild(script);
+  //     document.body.appendChild(script);
 
-//     window.onSpotifyWebPlaybackSDKReady = () => {
-//       const player = new window.Spotify.Player({
-//         name: `Lyrics Helper ${props.appInstanceId}`,
-//         getOAuthToken: (cb) => {
-//           cb(props.token);
-//         },
-//         volume: 0.5,
-//       });
+  //     window.onSpotifyWebPlaybackSDKReady = () => {
+  //       const player = new window.Spotify.Player({
+  //         name: `Lyrics Helper ${props.appInstanceId}`,
+  //         getOAuthToken: (cb) => {
+  //           cb(props.token);
+  //         },
+  //         volume: 0.5,
+  //       });
 
-//       setPlayer(player);
+  //       setPlayer(player);
 
-//       player.addListener("ready", ({ device_id }) => {
-//         console.log("Ready with Device ID", device_id);
-//       });
+  //       player.addListener("ready", ({ device_id }) => {
+  //         console.log("Ready with Device ID", device_id);
+  //       });
 
-//       player.addListener("not_ready", ({ device_id }) => {
-//         console.log("Device ID has gone offline", device_id);
-//       });
+  //       player.addListener("not_ready", ({ device_id }) => {
+  //         console.log("Device ID has gone offline", device_id);
+  //       });
 
-//       player.addListener("player_state_changed", (state) => {
-//         if (!state) {
-//           return;
-//         }
+  //       player.addListener("player_state_changed", (state) => {
+  //         if (!state) {
+  //           return;
+  //         }
 
-//         setTrack(state.track_window.current_track);
-//         setPaused(state.paused);
+  //         setTrack(state.track_window.current_track);
+  //         setPaused(state.paused);
 
-//         player.getCurrentState().then((state) => {
-//           !state ? setActive(false) : setActive(true);
-//         });
-//       });
+  //         player.getCurrentState().then((state) => {
+  //           !state ? setActive(false) : setActive(true);
+  //         });
+  //       });
 
-//       player.connect();
-//     };
-//   }, []);
-
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
+  //       player.connect();
+  //     };
+  //   }, []);
 
   const searchCurrentSong = async () => {
     try {
@@ -85,7 +81,9 @@ function WebPlayback(props: any) {
       const trackName = track.name;
 
       let searchQuery = "";
-      artists.forEach((artist: any) => (searchQuery = searchQuery + artist + " "));
+      artists.forEach(
+        (artist: any) => (searchQuery = searchQuery + artist + " ")
+      );
       searchQuery = searchQuery + trackName + " lyrics";
 
       searchQuery = encodeURIComponent(searchQuery);
@@ -107,7 +105,7 @@ function WebPlayback(props: any) {
     }
   };
 
-  const searchHistorySong = (historySearchUrl: any) => {
+  const searchHistorySong = (historySearchUrl: string) => {
     console.log("hist:;", historySearchUrl);
     window.open(historySearchUrl, "_blank");
   };
@@ -122,7 +120,7 @@ function WebPlayback(props: any) {
         </div>
       )}
 
-{/* todo: benötigt noch? lieber weglassen und auf lyrics konzentrieren */}
+      {/* todo: benötigt noch? lieber weglassen und auf lyrics konzentrieren */}
       {is_active && (
         <div className="container">
           <div className="main-wrapper">
@@ -184,7 +182,7 @@ function WebPlayback(props: any) {
         </div>
       </div>
 
-{/* todo: auslagern, styling */}
+      {/* todo: auslagern, styling */}
       <div className="search-history">
         {searchHistory.length > 0 && <h3>History</h3>}
         {searchHistory.map((search: any) => (

@@ -88,7 +88,7 @@ app.use(
     `${Deno.cwd()}/client/public`,
   ])
 );
-console.log("this is a text xxx");
+
 if (import.meta.main) {
   console.log(`Server listening on port http://localhost:${port}`);
   await app.listen({ port });
