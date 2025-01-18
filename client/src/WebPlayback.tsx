@@ -122,6 +122,7 @@ function WebPlayback(props: any) {
         </div>
       )}
 
+{/* todo: benötigt noch? lieber weglassen und auf lyrics konzentrieren */}
       {is_active && (
         <div className="container">
           <div className="main-wrapper">
@@ -183,6 +184,7 @@ function WebPlayback(props: any) {
         </div>
       </div>
 
+{/* todo: auslagern, styling */}
       <div className="search-history">
         {searchHistory.length > 0 && <h3>History</h3>}
         {searchHistory.map((search: any) => (
